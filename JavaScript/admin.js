@@ -1,3 +1,4 @@
+/*
 // 🚀 Load all users when page is ready
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch user data from backend API
@@ -74,4 +75,79 @@ function goToHome() {
 // 🧹 Navigate to Post Moderation page
 function goToPostModeration() {
     window.location.href = "../adminPosts.html";
+}
+*/
+
+// ✅ Base URL for Render backend
+const BASE_URL = "https://kpugram-backend.onrender.com/api";
+
+// 🚀 Load all users when page is ready
+document.addEventListener("DOMContentLoaded", () => {
+    fetch(`${BASE_URL}/admin/users`)
+        .then(res => res.json())
+        .then(users => {
+            const tbody = document.querySelector("#userTable tbody");
+
+            users.forEach(user => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td><img src="${user.profilePicture}" class="profile-thumb" alt="User Image"></td>
+                    <td>${user.bio || "-"}</td>
+                    <td>${user.admin ? "✅" : "❌"}</td>
+                    <td>${user.loginCount}</td>
+                    <td>
+                        <button class="btn btn-delete" onclick="deleteUser(${user.id})">Delete</button>
+                        ${user.admin ? '' : `<button class="btn btn-promote" onclick="promoteUser(${user.id})">Promote</button>`}
+                    </td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        })
+        .catch(err => {
+            console.error("Failed to load users:", err);
+            alert("❌ Could not load user list.");
+        });
+});
+
+// ❌ Delete a user by ID
+function deleteUser(userId) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    fetch(`${BASE_URL}/admin/user/${userId}`, {
+        method: "DELETE"
+    })
+        .then(res => res.text())
+        .then(msg => {
+            alert(msg);
+            location.reload();
+        })
+        .catch(err => alert("❌ Failed to delete user: " + err.message));
+}
+
+// ⬆️ Promote a user to admin
+function promoteUser(userId) {
+    fetch(`${BASE_URL}/admin/promote/${userId}`, {
+        method: "PUT"
+    })
+        .then(res => res.text())
+        .then(msg => {
+            alert(msg);
+            location.reload();
+        })
+        .catch(err => alert("❌ Failed to promote user: " + err.message));
+}
+
+// 🏠 Navigate to Home page
+function goToHome() {
+    window.location.href = "/Home.html";
+}
+
+// 🧹 Navigate to Post Moderation page
+function goToPostModeration() {
+    window.location.href = "/adminPosts.html";
 }

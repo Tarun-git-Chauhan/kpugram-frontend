@@ -1,3 +1,4 @@
+/*
 // 🏠 Navigate to the Home page
 function goToHome() {
     window.location.href = "../HTML/Home.html";
@@ -66,3 +67,69 @@ function deletePost(postId) {
 function goToUserDashboard() {
     window.location.href = "../admin.html";
 }
+*/
+
+// 🏠 Navigate to the Home page
+function goToHome() {
+    window.location.href = "/Home.html";
+}
+
+// 📰 Load all posts when the page is ready
+document.addEventListener("DOMContentLoaded", () => {
+    // ✅ Fetch posts from Render backend
+    fetch("https://kpugram-backend.onrender.com/api/posts/feed")
+        .then(res => res.json())
+        .then(posts => {
+            const tableBody = document.querySelector("#postTable tbody");
+            tableBody.innerHTML = "";
+
+            posts.forEach(post => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${post.id}</td>
+                    <td>${post.content}</td>
+                    <td>${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : "-"}</td>
+                    <td>${post.anonymous ? "Anonymous" : `@${post.username}`}</td>
+                    <td>${new Date(post.createdAt).toLocaleString()}</td>
+                    <td><button class="delete-btn" onclick="deletePost(${post.id})">Delete</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(err => {
+            console.error("Failed to load posts:", err);
+            document.querySelector("#postTable tbody").innerHTML = "<tr><td colspan='6'>Error loading posts</td></tr>";
+        });
+});
+
+// ❌ Delete a post by ID
+function deletePost(postId) {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+
+    const userId = localStorage.getItem("userId");
+
+    fetch(`https://kpugram-backend.onrender.com/api/posts/${postId}?userId=${userId}`, {
+        method: "DELETE"
+    })
+        .then(res => {
+            if (res.ok) {
+                alert("✅ Post deleted!");
+                location.reload();
+            } else {
+                alert("❌ Failed to delete post");
+            }
+        })
+        .catch(err => {
+            console.error("Error deleting post:", err);
+            alert("Error occurred while deleting");
+        });
+}
+
+// 👥 Navigate to the User Dashboard (Admin page)
+function goToUserDashboard() {
+    window.location.href = "/admin.html";
+}
+
+
