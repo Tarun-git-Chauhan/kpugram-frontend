@@ -1,0 +1,50 @@
+/* 📤 Upload heading title */
+.upload-heading {
+  font-size: 24px;              /* Large font size for heading */
+  font-weight: 600;             /* Semi-bold text */
+  color: #333;                  /* Dark gray color */
+  margin-bottom: 20px;          /* Space below heading */
+  text-align: center;           /* Center the heading text */
+}
+
+/* 📁 Custom file upload button styling */
+.custom-file-upload {
+  display: inline-block;
+  background-color: #fce4ec;    /* Light pink background */
+  color: #d81b60;               /* Dark pink text */
+  font-weight: 500;             /* Medium-bold text */
+  padding: 10px 16px;           /* Space inside the button */
+  border-radius: 6px;           /* Rounded corners */
+  cursor: pointer;              /* Pointer cursor on hover */
+  transition: background 0.3s ease;  /* Smooth hover transition */
+  margin-bottom: 10px;          /* Space below the button */
+}
+
+/* 🖱️ Hover effect for file upload button */
+.custom-file-upload:hover {
+  background-color: #f8bbd0;    /* Darker pink on hover */
+}
+
+/* 🖼️ Preview of selected image */
+.image-preview {
+  width: 100%;                  /* Full width of container */
+  border-radius: 8px;           /* Rounded corners */
+  margin-top: 15px;             /* Space above preview */
+  max-height: 300px;            /* Limit image height */
+  object-fit: cover;            /* Image fills box without distortion */
+  display: none;                /* Hidden by default */
+  border: 1px solid #dbdbdb;    /* Light border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Soft shadow */
+}
+
+/* 📝 Caption/description text area */
+textarea {
+  resize: none;                 /* Prevent manual resizing */
+  height: 80px;                 /* Fixed height */
+  font-family: inherit;         /* Use same font as rest of site */
+  padding: 10px;                /* Padding inside box */
+  font-size: 14px;              /* Standard text size */
+  border: 1px solid #ccc;       /* Light gray border */
+  border-radius: 5px;           /* Rounded corners */
+  margin-top: 10px;             /* Space above the box */
+}

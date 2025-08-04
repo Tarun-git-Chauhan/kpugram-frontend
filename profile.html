@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for encoding and responsive layout -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Page title shown in the browser tab -->
+  <title>KPUgram+ | Profile</title>
+
+  <!-- Link to external stylesheet for consistent styling -->
+  <link rel="stylesheet" href="CSS/stylesheet.css" />
+</head>
+<body>
+
+<!-- 🔝 HEADER -->
+<header class="header">
+  <div class="header-left">
+    <!-- Logo that redirects to home on click -->
+    <img src="images/Logo1.png" alt="KPUgram+ Logo" class="logo" onclick="goToHome()" style="cursor:pointer;"/>
+  </div>
+
+  <div class="header-right">
+    <!-- Username displayed in header, links to profile -->
+    <div class="username" id="headerUsername" onclick="goToProfile()">@username</div>
+
+    <!-- Streak badge showing number of logins -->
+    <div class="streak-badge">🔥 Login Streak: <span id="streakCount">0</span></div>
+  </div>
+</header>
+
+<!-- 👤 PROFILE SECTION -->
+<main class="profile">
+  <div class="center-container">
+    <!-- Top part of profile showing picture, name, handle, and bio -->
+    <div class="profile-header">
+      <div class="profile-picture-wrapper">
+        <!-- Profile picture displayed here -->
+        <img id="profileImage" class="profile-img" alt="Profile Picture" />
+      </div>
+
+      <div class="profile-info">
+        <!-- Full name of the user -->
+        <h2 class="full-name" id="fullName">Your Full Name</h2>
+
+        <!-- User handle (username with @) -->
+        <p class="handle" id="handle">@username</p>
+
+        <!-- Optional bio (can be filled via JavaScript or backend) -->
+        <p class="bio"></p>
+      </div>
+    </div>
+
+    <!-- Divider line -->
+    <hr style="width: 100%; border: none; border-top: 1px solid #dbdbdb; margin: 20px 0;" />
+
+    <!-- Section for displaying user's posts -->
+    <h3 class="section-heading">📸 Your Posts</h3>
+
+    <!-- Grid where user's posts will be loaded dynamically -->
+    <div class="post-grid" id="postGrid">
+      <!-- Posts will be loaded here -->
+    </div>
+  </div>
+</main>
+
+<!-- 🔻 FOOTER -->
+<footer class="nav-bar">
+  <!-- Navigation buttons for page switching -->
+  <button onclick="goToHome()" title="Home">🏠</button>
+  <button onclick="goToUpload()" title="Upload">➕</button>
+  <button onclick="goToConfess()" title="Confess">✏️</button>
+  <button onclick="goToProfile()" title="Profile">👤</button>
+</footer>
+
+<!-- 📜 External JS for shared navigation functionality -->
+<script src="JavaScript/script2.js"></script>
+
+<!-- 🧠 Script to load user data from localStorage -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get user data from localStorage or use fallback values
+    const username = localStorage.getItem('username') || 'guest';
+    const profilePic = localStorage.getItem('profilePicture') || 'https://via.placeholder.com/150';
+    const streak = localStorage.getItem('loginStreak') || '0';
+
+    // Display username in the header and profile section
+    document.getElementById('headerUsername').textContent = '@' + username;
+    document.getElementById('handle').textContent = '@' + username;
+
+    // Set profile picture
+    document.getElementById('profileImage').src = profilePic;
+
+    // Show login streak count
+    document.getElementById('streakCount').textContent = streak;
+
+    // Capitalize and display full name
+    document.getElementById('fullName').textContent = username.charAt(0).toUpperCase() + username.slice(1);
+  });
+</script>
+</body>
+</html>

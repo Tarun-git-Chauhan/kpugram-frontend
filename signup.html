@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Sets character encoding to UTF-8 -->
+    <meta charset="UTF-8">
+
+    <!-- Makes the page responsive to different screen sizes -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Sets the page title shown in the browser tab -->
+    <title>KPUgram+ | Sign Up</title>
+
+    <!-- Links an external CSS stylesheet for styling -->
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<!-- Container that wraps the whole signup form -->
+<div class="container">
+    <!-- Heading text -->
+    <h2>Create an Account</h2>
+
+    <!-- Signup form starts here -->
+    <form id="signupForm">
+        <!-- Input field for username (required) -->
+        <input type="text" placeholder="Username" name="name" required>
+
+        <!-- Input field for password (required) -->
+        <input type="password" placeholder="Password" name="password" required>
+
+        <!-- Optional input for user's bio -->
+        <input type="text" placeholder="Bio (optional)" name="bio">
+
+        <!-- Input field for email (required) -->
+        <input type="email" placeholder="Email" name="email" required>
+
+        <!-- Section for profile picture upload -->
+        <div class="profile-header">
+            <div class="profile-picture-wrapper">
+                <!-- Label wraps the image and input for better clickability -->
+                <label for="profilePicUpload">
+                    <!-- Default profile picture shown before user uploads -->
+                    <img id="profileImage" class="profile-img" src="images/upload.png" alt="Profile Picture" title="Click to change" />
+
+                    <!-- Hidden file input for selecting profile image -->
+                    <input type="file" id="profilePicUpload" accept="image/*" style="display: none;" />
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit button for the signup form -->
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+
+<!-- Links to the external JavaScript file that handles form logic -->
+<script src="JavaScript/script.js"></script>
+
+</body>
+</html>

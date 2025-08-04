@@ -1,0 +1,103 @@
+/* General reset and base styling */
+body {
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    font-family: Arial, sans-serif; /* Sets a clean, readable font */
+    background-color: #f0f2f5; /* Light gray fallback background */
+    display: flex; /* Uses flexbox to center content */
+    justify-content: center; /* Horizontally centers content */
+    align-items: center; /* Vertically centers content */
+    min-height: 100vh; /* Full height of viewport */
+    background-image: url("../images/bgImg1.jpg"); /* Background image */
+    background-repeat: no-repeat; /* Prevents image from repeating */
+    background-size: cover; /* Scales image to cover the whole screen */
+    background-position: center; /* Centers the image */
+}
+
+/* Responsive container box */
+.container {
+    background-color: white; /* White background for contrast */
+    padding: 30px 20px; /* Inner spacing */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    text-align: center; /* Centers text inside the box */
+    width: 90%; /* Takes up 90% of screen width */
+    max-width: 400px; /* Limits width for larger screens */
+    box-sizing: border-box; /* Includes padding and border in width */
+}
+
+/* Logo image inside the form */
+.logo {
+    width: 100%; /* Full width of its container */
+    max-width: 150px; /* But not more than 150px */
+    margin-bottom: 20px; /* Space below the logo */
+}
+
+/* Input fields for text, password, and email */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%; /* Full width of the container */
+    padding: 10px; /* Inner spacing */
+    margin: 10px 0; /* Vertical spacing between fields */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Keeps consistent sizing */
+}
+
+/* Submit button style */
+button {
+    width: 100%; /* Full width */
+    padding: 12px; /* Space inside the button */
+    background-color: #800000; /* Maroon background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded edges */
+    font-size: 16px; /* Medium text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 10px; /* Space above the button */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #a00000; /* Darker maroon on hover */
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 15px; /* Less padding on smaller devices */
+    }
+
+    h1 {
+        font-size: 22px; /* Smaller heading size */
+    }
+
+    button {
+        font-size: 15px; /* Slightly smaller button text */
+    }
+}
+
+/* Wrapper for profile image */
+.profile-picture-wrapper {
+    display: flex; /* Flexbox for alignment */
+    justify-content: center; /* Centers the image horizontally */
+    margin: 15px 0; /* Vertical spacing around image */
+}
+
+/* Profile image preview styling */
+.profile-img {
+    width: 100px; /* Avatar width */
+    height: 100px; /* Avatar height */
+    object-fit: cover; /* Ensures image maintains aspect ratio */
+    border-radius: 50%; /* Makes image circular */
+    border: 2px solid #ccc; /* Thin border around image */
+    cursor: pointer; /* Pointer on hover */
+    transition: transform 0.2s ease; /* Smooth scaling effect */
+}
+
+/* Slight zoom effect on hover */
+.profile-img:hover {
+    transform: scale(1.05); /* Zooms image slightly on hover */
+}

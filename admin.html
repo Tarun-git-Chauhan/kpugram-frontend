@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page setup -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title shown in browser tab -->
+    <title>KPUgram+ | Admin Dashboard</title>
+
+    <!-- Linking the external CSS file for admin dashboard styling -->
+    <link rel="stylesheet" href="CSS/admin.css" />
+</head>
+<body>
+
+<!-- Header section containing logo and navigation buttons -->
+<header class="header">
+    <!-- KPUgram+ logo that takes you to the homepage on click -->
+    <img src="images/Logo1.png" alt="KPUgram+ Logo" class="logo" onclick="goToHome()" />
+
+    <div class="header-right">
+        <!-- Admin dashboard label and moderation navigation -->
+        <div class="admin-header-links">
+            <span class="username">Admin Dashboard</span>
+
+            <!-- Button to go to the post moderation page -->
+            <button class="nav-btn" onclick="goToPostModeration()">📝 Moderate Posts</button>
+        </div>
+
+        <!-- Button to return to main KPUgram homepage -->
+        <button class="btn btn-home" onclick="goToHome()">🏠 KPUgram</button>
+    </div>
+</header>
+
+<!-- Main content area -->
+<main class="center-container">
+    <!-- Title for the admin panel -->
+    <h2>🛠️ Admin Control Panel</h2>
+
+    <!-- Table to display all registered users and actions -->
+    <table id="userTable">
+        <thead>
+        <tr>
+            <!-- Table headers: user information and admin controls -->
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Profile</th>
+            <th>Bio</th>
+            <th>Admin</th>
+            <th>Login Count</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- JavaScript will dynamically insert user rows here -->
+        </tbody>
+    </table>
+</main>
+
+<!-- Link to the JavaScript file that handles user data and admin actions -->
+<script src="JavaScript/admin.js"></script>
+</body>
+</html>

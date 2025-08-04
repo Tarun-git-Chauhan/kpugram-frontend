@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Sets character encoding to UTF-8 -->
+  <meta charset="UTF-8" />
+
+  <!-- Ensures responsive design on all screen sizes -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Sets the title of the page shown in browser tab -->
+  <title>Upload Post | KPUgram+</title>
+
+  <!-- Link to the main stylesheet -->
+  <link rel="stylesheet" href="CSS/stylesheet.css" />
+
+  <!-- Link to additional styles specific to the upload page -->
+  <link rel="stylesheet" href="CSS/upload.css" />
+</head>
+<body>
+
+<!-- 🔝 HEADER -->
+<header class="header">
+  <!-- KPUgram+ logo that takes user to the home page on click -->
+  <img src="images/Logo1.png" alt="KPUgram+ Logo" class="logo" onclick="goToHome()" style="cursor:pointer;" />
+
+  <!-- Displays username in the header, takes user to profile page on click -->
+  <div class="username" id="headerUsername" onclick="goToProfile()">@username</div>
+</header>
+
+<!-- 📤 UPLOAD FORM -->
+<main class="upload-container">
+  <!-- Heading for the upload section -->
+  <h2 class="upload-heading">📤 Create New Post</h2>
+
+  <div class="upload-card">
+    <!-- File input for selecting an image (hidden) -->
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+
+    <!-- Styled label acts as a button for selecting the image -->
+    <label for="imageUpload" class="custom-file-upload">📷 Choose an image</label>
+
+    <!-- Textarea for entering a caption -->
+    <textarea id="captionInput" placeholder="Write a caption... "></textarea>
+
+    <!-- Button to submit the post -->
+    <button class="post-button" onclick="sharePost()">Share Post</button>
+  </div>
+
+  <!-- 👀 PREVIEW OUTPUT -->
+  <!-- Hidden preview section that shows selected image and caption after upload -->
+  <section id="postPreview" class="post" style="display: none;">
+    <img id="outputImage" src="" alt="Post Image" />
+    <div class="caption" id="outputCaption"></div>
+  </section>
+</main>
+
+<!-- 🔻 NAVIGATION FOOTER -->
+<footer class="nav-bar">
+  <!-- Navigation buttons to different pages -->
+  <button onclick="goToHome()" title="Home">🏠</button>
+  <button onclick="goToUpload()" title="Upload">➕</button>
+  <button onclick="goToConfess()" title="Confess">✏️</button>
+  <button onclick="goToProfile()" title="Profile">👤</button>
+</footer>
+
+<!-- 📜 SCRIPTS -->
+<!-- External JavaScript files that handle navigation and upload functionality -->
+<script src="JavaScript/script2.js"></script>
+<script src="JavaScript/upload.js"></script>
+
+</body>
+</html>

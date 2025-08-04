@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding -->
+    <meta charset="UTF-8" />
+
+    <!-- Viewport setting for responsiveness on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title shown in browser tab -->
+    <title>KPUgram+ Login</title>
+
+    <!-- Link to shared CSS file for consistent styling -->
+    <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body>
+
+<!-- 🔲 Centered container for the login box -->
+<div class="container">
+    <!-- Heading for login form -->
+    <h2>Login to Your Account</h2>
+
+    <!-- Login form for email and password -->
+    <form id="loginForm">
+        <!-- Email input field -->
+        <input type="email" class="Name" placeholder="Email" name="email" required />
+
+        <!-- Password input field -->
+        <input type="password" class="pswd" placeholder="Password" name="password" required />
+
+        <!-- Submit button for logging in -->
+        <button type="submit" class="submit">Login</button>
+    </form>
+</div>
+
+<!-- 📜 External script that contains login logic (validation, redirection, etc.) -->
+<script src="JavaScript/script.js"></script>
+
+<!-- 🔔 Toast notification for showing login success/error messages -->
+<div id="toast" class="toast" style="display: none;"></div>
+
+</body>
+</html>

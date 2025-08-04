@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for character encoding and responsive design -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Title shown in browser tab -->
+  <title>KPUgram+ | Confess</title>
+
+  <!-- Link to external CSS file for styling -->
+  <link rel="stylesheet" href="CSS/stylesheet.css" />
+</head>
+<body>
+
+<!-- 🔝 Header section -->
+<header class="header">
+  <!-- KPUgram+ logo; clicking redirects to home -->
+  <img src="images/Logo1.png" alt="KPUgram+ Logo" class="logo" onclick="goToHome()" style="cursor:pointer;">
+
+  <!-- Display logged-in username; clicking opens profile -->
+  <div class="username" id="headerUsername" onclick="goToProfile()">@username</div>
+</header>
+
+<!-- 💬 Main confession section -->
+<main class="confess-section">
+  <div class="center-container">
+
+    <!-- Title and tagline for the confession page -->
+    <h2 class="confess-title">💬 Share a Confession</h2>
+    <p class="confess-tagline">Your secrets, your voice — 100% anonymous.</p>
+
+    <!-- Confession input form -->
+    <form class="confess-form">
+      <!-- Text area for user to type their confession -->
+      <textarea name="confession" placeholder="What's on your mind?" required></textarea>
+
+      <!-- Button to submit the confession -->
+      <button type="submit" class="post-button">Submit</button>
+    </form>
+
+    <!-- ⚠️ Rules section -->
+    <section class="confession-rules">
+      <h3>🚨 Reminder</h3>
+      <ul>
+        <li>No bullying or hate speech</li>
+        <li>Stay kind and anonymous</li>
+        <li>Violations will be removed</li>
+      </ul>
+    </section>
+
+    <!-- 📢 Section showing all recent anonymous confessions -->
+    <section class="confession-wall">
+      <h3>📢 Recent Confessions</h3>
+
+      <!-- Feed container where confessions will be injected by JavaScript -->
+      <div class="confession-feed"></div>
+    </section>
+  </div>
+</main>
+
+<!-- 🔻 Bottom navigation bar -->
+<footer class="nav-bar">
+  <!-- Navigation buttons to switch pages -->
+  <button onclick="goToHome()">🏠</button>
+  <button onclick="goToUpload()">➕</button>
+  <button onclick="goToConfess()">✏️</button>
+  <button onclick="goToProfile()">👤</button>
+</footer>
+
+<!-- 📜 External JavaScript files to handle dynamic behavior -->
+<script src="JavaScript/script2.js"></script>
+<script src="JavaScript/confession.js"></script>
+
+</body>
+</html>

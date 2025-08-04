@@ -1,0 +1,66 @@
+/* Base styles for the entire page */
+body {
+    font-family: Arial, sans-serif; /* Sets a clean, common font */
+    background: #f9f9f9; /* Light gray background */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+}
+
+/* Header section at the top of the page */
+.header {
+    display: flex; /* Uses flexbox for layout */
+    justify-content: space-between; /* Puts space between logo and username */
+    align-items: center; /* Vertically centers items */
+    padding: 1rem 2rem; /* Adds spacing inside the header */
+    background-color: #fff; /* White background */
+    border-bottom: 1px solid #ccc; /* Light gray bottom border */
+}
+
+/* Logo image styling */
+.logo {
+    height: 40px; /* Sets fixed height */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Username display in the header */
+.username {
+    font-weight: bold; /* Makes text bold */
+    font-size: 1.2rem; /* Increases font size slightly */
+}
+
+/* Main content container centered on the page */
+.center-container {
+    margin: 2rem auto; /* Top/bottom margin and auto horizontal centering */
+    width: 95%; /* Takes up 95% of the screen width */
+}
+
+/* Styles for tables */
+table {
+    width: 100%; /* Table spans the full width */
+    border-collapse: collapse; /* Removes gaps between table borders */
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Light border around the table */
+}
+
+/* Styles for both header and data cells in the table */
+th, td {
+    padding: 10px; /* Adds space inside cells */
+    text-align: center; /* Centers text horizontally */
+    border: 1px solid #ddd; /* Light border for each cell */
+}
+
+/* Styling for images inside posts (like post thumbnails) */
+img.post-img {
+    max-width: 80px; /* Limits width to 80px */
+    max-height: 80px; /* Limits height to 80px */
+}
+
+/* Style for delete buttons */
+button.delete-btn {
+    background-color: #ff4d4d; /* Red background */
+    color: white; /* White text */
+    padding: 5px 10px; /* Inner padding */
+    border: none; /* Removes border */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 4px; /* Slightly rounded corners */
+}

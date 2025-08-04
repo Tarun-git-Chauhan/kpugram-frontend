@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page setup -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title shown in browser tab -->
+    <title>Post Moderation - Admin | KPUgram+</title>
+
+    <!-- Link to external CSS for styling the post moderation page -->
+    <link rel="stylesheet" href="CSS/adminPosts.css" />
+</head>
+<body>
+
+<!-- Header section with logo and navigation -->
+<header class="header">
+    <!-- Logo that redirects to the home page when clicked -->
+    <img src="images/Logo1.png" alt="KPUgram+ Logo" class="logo" onclick="goToHome()" />
+
+    <div class="admin-header-links">
+        <!-- Title indicating this is the Post Moderation section -->
+        <span class="username">Post Moderation 🧹</span>
+
+        <!-- Button to switch to the User Management (Admin Dashboard) page -->
+        <button class="nav-btn" onclick="goToUserDashboard()">🧑‍💼 User Management</button>
+    </div>
+</header>
+
+<!-- Main content area -->
+<main class="center-container">
+    <!-- Section heading for post overview -->
+    <h2>🧾 All Posts (Admin View)</h2>
+
+    <!-- Table to display all user posts with moderation actions -->
+    <table id="postTable">
+        <thead>
+        <tr>
+            <!-- Table headers for post info and moderation controls -->
+            <th>ID</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>User</th>
+            <th>Time</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- JavaScript will dynamically populate post rows here -->
+        </tbody>
+    </table>
+</main>
+
+<!-- Link to the JavaScript file that manages post data and admin actions -->
+<script src="JavaScript/adminPosts.js"></script>
+</body>
+</html>

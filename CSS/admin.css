@@ -1,0 +1,149 @@
+/* Applies to the whole page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Sets a clean, readable font */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Styles the top header bar */
+.header {
+    display: flex; /* Uses flexbox for layout */
+    justify-content: space-between; /* Space between logo and username */
+    align-items: center; /* Vertically center items */
+    background-color: #fff; /* White background */
+    padding: 10px 20px; /* Padding inside the header */
+    border-bottom: 1px solid #ddd; /* Light bottom border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+/* Logo styling */
+.logo {
+    height: 60px; /* Sets logo height */
+    cursor: pointer; /* Makes it clickable */
+}
+
+/* Username text in header */
+.username {
+    font-weight: 600; /* Semi-bold text */
+    font-size: 18px; /* Slightly larger font size */
+    color: #444; /* Dark gray color */
+}
+
+/* Container for centering content on page */
+.center-container {
+    padding: 20px; /* Adds spacing around the content */
+}
+
+/* Headings inside the page */
+h2 {
+    margin-bottom: 20px; /* Space below heading */
+    color: #222; /* Dark text */
+    text-align: center; /* Center the heading */
+}
+
+/* Table styles */
+table {
+    width: 100%; /* Table takes full width */
+    border-collapse: collapse; /* Removes space between borders */
+    background-color: white; /* White background for the table */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Light shadow */
+}
+
+/* Styles for both table header and data cells */
+th, td {
+    padding: 12px 16px; /* Inner spacing */
+    border: 1px solid #ddd; /* Light gray border */
+    text-align: center; /* Center-aligns text */
+    font-size: 14px; /* Font size for table text */
+}
+
+/* Header cells of the table */
+th {
+    background-color: #f1f1f1; /* Light gray background */
+    font-weight: bold; /* Bold text */
+}
+
+/* Base style for buttons */
+.btn {
+    padding: 6px 12px; /* Inner spacing */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Cursor becomes pointer on hover */
+    font-size: 13px; /* Slightly smaller text */
+}
+
+/* Delete button style */
+.btn-delete {
+    background-color: #e74c3c; /* Red color */
+    color: white; /* White text */
+    margin-right: 6px; /* Space to the right */
+}
+
+/* Promote button style */
+.btn-promote {
+    background-color: #2ecc71; /* Green color */
+    color: white; /* White text */
+}
+
+/* Small circular profile pictures */
+img.profile-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Makes it round */
+    object-fit: cover; /* Ensures image fills the space without distortion */
+}
+
+/* Right side of the header (e.g., buttons or links) */
+.header-right {
+    display: flex; /* Horizontal layout */
+    align-items: center; /* Vertical alignment */
+    gap: 10px; /* Space between items */
+}
+
+/* Home button style */
+.btn-home {
+    background-color: #3498db; /* Blue color */
+    color: white;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Style for the last nav-bar button (e.g., logout or special action) */
+.nav-bar button:last-child {
+    background-color: #ffe5e5; /* Light red background */
+    color: #b30000; /* Dark red text */
+    font-weight: bold;
+    border-radius: 50%; /* Circular button */
+    width: 36px;
+    height: 36px;
+}
+
+/* 🔽 Additional styles for admin post moderation navigation */
+
+/* Header links container for admin pages */
+.admin-header-links {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between each button/link */
+}
+
+/* Style for navigation buttons */
+.nav-btn {
+    background-color: #007bff; /* Bright blue */
+    color: white; /* White text */
+    border: none;
+    padding: 8px 14px; /* Padding inside the button */
+    border-radius: 6px; /* Rounded corners */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
+}
+
+/* Hover effect for navigation buttons */
+.nav-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
