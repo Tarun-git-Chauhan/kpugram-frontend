@@ -54,3 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
         confessPostBtn.addEventListener("click", () => uploadPost(true));
     }
 });
+
+function goToSignup() {
+    window.location.href = "signup.html";
+}
+
+function goToLogin() {
+    window.location.href = "login.html";
+}
+
