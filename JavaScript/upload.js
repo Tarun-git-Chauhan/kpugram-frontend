@@ -1,9 +1,8 @@
-/*
-/!**
+/**
  * Handles the creation and submission of a regular post with optional caption and image.
  * Requires either a caption or an image to proceed.
  * Submits data using a multipart/form-data POST request to the backend.
- *!/
+ */
 function sharePost() {
   const caption = document.getElementById("captionInput").value.trim();
   const imageFile = document.getElementById("imageUpload").files[0];
@@ -23,7 +22,7 @@ function sharePost() {
   formData.append("anonymous", "false");    // Regular post, not anonymous
 
   // Send POST request to backend to create the post
-  fetch("http://localhost:8080/api/posts/create", {
+  fetch("https://kpugram-backend.onrender.com/api/posts/create", {
     method: "POST",
     body: formData
   })
@@ -38,62 +37,10 @@ function sharePost() {
         // Clear form fields and redirect to the Home/feed page
         document.getElementById("captionInput").value = "";
         document.getElementById("imageUpload").value = "";
-        window.location.href = "../Home.html";
+        window.location.href = "../HTML/Home.html";
       })
       .catch(error => {
         console.error("Upload Error:", error);
         alert("Error uploading post: " + error.message);
       });
-}
-*/
-
-
-/**
- * Handles the creation and submission of a regular post with optional caption and image.
- * Requires either a caption or an image to proceed.
- * Submits data using a multipart/form-data POST request to the backend.
- */
-
-// ✅ Use correct deployed backend URL
-const BASE_URL = "https://kpugram-backend.onrender.com/api";
-
-function sharePost() {
-    const caption = document.getElementById("captionInput").value.trim();
-    const imageFile = document.getElementById("imageUpload").files[0];
-    const userId = localStorage.getItem("userId");
-
-    // Ensure that at least one input is provided (caption or image)
-    if (!caption && !imageFile) {
-        alert("Please write a caption or upload an image.");
-        return;
-    }
-
-    // Prepare the form data for multipart request
-    const formData = new FormData();
-    formData.append("content", caption);      // Caption text
-    formData.append("image", imageFile);      // Optional image file
-    formData.append("anonymous", "false");    // Regular post
-    // Note: userId is already part of the URL in our API
-
-    // 🔗 POST request to backend
-    fetch(`${BASE_URL}/posts/create/${userId}`, {
-        method: "POST",
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Post upload failed.");
-            }
-            return response.text(); // Plain success message
-        })
-        .then(data => {
-            alert("Post uploaded successfully.");
-            document.getElementById("captionInput").value = "";
-            document.getElementById("imageUpload").value = "";
-            window.location.href = "/Home.html";
-        })
-        .catch(error => {
-            console.error("Upload Error:", error);
-            alert("Error uploading post: " + error.message);
-        });
 }

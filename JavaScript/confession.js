@@ -1,7 +1,6 @@
-/*
-/!* // ✅ Load all anonymous confessions
+/* // ✅ Load all anonymous confessions
 function loadConfessionsFromBackend() {
-    fetch("http://localhost:8080/api/confessions")
+    fetch("https://kpugram-backend.onrender.com/api/confessions")
         .then(res => {
             if (!res.ok) throw new Error("Failed to load confessions");
             return res.json();
@@ -71,7 +70,7 @@ function submitConfessionToBackend(content) {
         anonymous: true
     };
 
-    fetch(`http://localhost:8080/api/confessions/create?userId=${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/confessions/create?userId=${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -112,10 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
         usernameDisplay.textContent = "@" + username;
     }
 });
-*!/
+*/
 /// ✅ Load all anonymous confessions from backend and render them
 function loadConfessionsFromBackend() {
-    fetch("http://localhost:8080/api/confessions")
+    fetch("https://kpugram-backend.onrender.com/api/confessions")
         .then(res => {
             if (!res.ok) throw new Error("Failed to load confessions");
             return res.json();
@@ -235,7 +234,7 @@ function submitConfessionToBackend(content) {
     };
 
     // 📤 Send confession using POST request
-    fetch(`http://localhost:8080/api/confessions/create?userId=${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/confessions/create?userId=${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -279,156 +278,3 @@ document.addEventListener("DOMContentLoaded", () => {
         usernameDisplay.textContent = "@" + username;
     }
 });
-*/
-
-// ✅ Load all anonymous confessions from backend and render them
-function loadConfessionsFromBackend() {
-    fetch("https://kpugram-backend.onrender.com/api/confessions")
-        .then(res => {
-            if (!res.ok) throw new Error("Failed to load confessions");
-            return res.json();
-        })
-        .then(confessions => {
-            const feed = document.querySelector(".confession-feed");
-            feed.innerHTML = "";
-
-            confessions.reverse().forEach(confession => {
-                const box = document.createElement("div");
-                box.className = "confession-box";
-                const confessionId = confession.id;
-
-                const localLikes = JSON.parse(localStorage.getItem("likes")) || {};
-                const localComments = JSON.parse(localStorage.getItem("comments")) || {};
-
-                const currentLikeCount = localLikes[confessionId] || 0;
-                const comments = localComments[confessionId] || [];
-
-                const text = document.createElement("p");
-                text.textContent = confession.content;
-
-                const likeBtn = document.createElement("button");
-                likeBtn.className = "like-btn";
-                likeBtn.textContent = `❤️ ${currentLikeCount}`;
-
-                let liked = localStorage.getItem(`liked-${confessionId}`) === "true";
-                likeBtn.style.opacity = liked ? "0.6" : "1.0";
-
-                likeBtn.onclick = () => {
-                    if (!liked) {
-                        localLikes[confessionId] = (localLikes[confessionId] || 0) + 1;
-                        localStorage.setItem("likes", JSON.stringify(localLikes));
-                        localStorage.setItem(`liked-${confessionId}`, "true");
-
-                        likeBtn.textContent = `❤️ ${localLikes[confessionId]}`;
-                        likeBtn.style.opacity = "0.6";
-                        liked = true;
-                    } else {
-                        alert("You have already liked this confession.");
-                    }
-                };
-
-                const commentsDiv = document.createElement("div");
-                commentsDiv.className = "comments";
-                commentsDiv.innerHTML = "<small>💬 Comments</small>";
-
-                const commentList = document.createElement("ul");
-                commentList.className = "comment-list";
-                comments.forEach(comment => {
-                    const li = document.createElement("li");
-                    li.textContent = comment;
-                    commentList.appendChild(li);
-                });
-
-                const commentInput = document.createElement("input");
-                commentInput.placeholder = "Add a comment...";
-                commentInput.className = "comment-input";
-
-                const commentBtn = document.createElement("button");
-                commentBtn.textContent = "Post";
-                commentBtn.className = "comment-btn";
-
-                commentBtn.onclick = () => {
-                    const commentText = commentInput.value.trim();
-                    if (commentText) {
-                        comments.push(commentText);
-                        localComments[confessionId] = comments;
-                        localStorage.setItem("comments", JSON.stringify(localComments));
-
-                        const li = document.createElement("li");
-                        li.textContent = commentText;
-                        commentList.appendChild(li);
-                        commentInput.value = "";
-                    }
-                };
-
-                commentsDiv.appendChild(commentList);
-                box.appendChild(text);
-                box.appendChild(likeBtn);
-                box.appendChild(commentInput);
-                box.appendChild(commentBtn);
-                box.appendChild(commentsDiv);
-
-                feed.appendChild(box);
-            });
-        })
-        .catch(error => {
-            console.error("Confession load error:", error);
-            document.querySelector(".confession-feed").innerHTML = "<p>Could not load confessions.</p>";
-        });
-}
-
-// ✅ Submit a confession to backend (Spring Boot API)
-function submitConfessionToBackend(content) {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-        alert("Please login first!");
-        return;
-    }
-
-    const data = {
-        content: content,
-        anonymous: true
-    };
-
-    fetch(`https://kpugram-backend.onrender.com/api/confessions/create?userId=${userId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-        .then(res => {
-            if (!res.ok) throw new Error("Submission failed");
-            return res.text();
-        })
-        .then(() => {
-            alert("✅ Confession submitted!");
-            loadConfessionsFromBackend();
-        })
-        .catch(err => {
-            alert("❌ Error: " + err.message);
-        });
-}
-
-// 🚀 DOM Ready logic
-document.addEventListener("DOMContentLoaded", () => {
-    loadConfessionsFromBackend();
-
-    const form = document.querySelector(".confess-form");
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const textarea = form.querySelector("textarea");
-            const newConfession = textarea.value.trim();
-            if (!newConfession) return;
-
-            submitConfessionToBackend(newConfession);
-            textarea.value = "";
-        });
-    }
-
-    const username = localStorage.getItem("username") || "username";
-    const usernameDisplay = document.getElementById("headerUsername");
-    if (usernameDisplay) {
-        usernameDisplay.textContent = "@" + username;
-    }
-});
-
