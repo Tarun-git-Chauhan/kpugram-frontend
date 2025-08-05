@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 row.innerHTML = `
                     <td>${post.id}</td>
                     <td>${post.content}</td>
-                    <td>${post.imageUrl ? `<img src="ttps://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : "-"}</td>
+                    <td>${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : "-"}</td>
                     <td>${post.anonymous ? "Anonymous" : `@${post.username}`}</td>
                     <td>${new Date(post.createdAt).toLocaleString()}</td>
                     <td><button class="delete-btn" onclick="deletePost(${post.id})">Delete</button></td>

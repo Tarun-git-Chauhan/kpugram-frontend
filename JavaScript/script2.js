@@ -107,7 +107,7 @@ function loadPosts() {
   const feed = document.getElementById('feed');
   feed.innerHTML = ""; // Clear existing feed content
 
-  fetch('ttps://kpugram-backend.onrender.com/api/posts/feed')
+  fetch('https://kpugram-backend.onrender.com/api/posts/feed')
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch posts");
         return res.json();
@@ -135,7 +135,7 @@ function loadPosts() {
           </div>
           <div class="post-body">
             <p>${post.content}</p>
-            ${post.imageUrl ? `<img src="ttps://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
+            ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
             <div class="post-footer">
               <span class="likes">❤️ ${likeCount}</span>
               <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
