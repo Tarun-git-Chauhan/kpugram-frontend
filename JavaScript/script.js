@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 email: formData.get("email"),
                 bio: formData.get("bio"),
                 // Use uploaded profile picture or default image
-                profilePicture: localStorage.getItem("profilePicture") || "ttps://kpugram-backend.onrender.com/Images/blank.png"
+                profilePicture: localStorage.getItem("profilePicture") || "https://kpugram-backend.onrender.com/Images/blank.png"
             };
 
             try {
