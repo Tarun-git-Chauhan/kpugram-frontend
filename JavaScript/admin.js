@@ -1,7 +1,7 @@
 // 🚀 Load all users when page is ready
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch user data from backend API
-    fetch("http://localhost:8080/api/admin/users")
+    fetch("https://kpugram-backend.onrender.com/api/admin/users")
         .then(res => res.json()) // Convert response to JSON
         .then(users => {
             const tbody = document.querySelector("#userTable tbody"); // Target table body
@@ -41,7 +41,7 @@ function deleteUser(userId) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
     // Send DELETE request to backend
-    fetch(`http://localhost:8080/api/admin/user/${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/admin/user/${userId}`, {
         method: "DELETE"
     })
         .then(res => res.text()) // Convert response to plain text
@@ -55,7 +55,7 @@ function deleteUser(userId) {
 // ⬆️ Promote a user to admin
 function promoteUser(userId) {
     // Send PUT request to promote user
-    fetch(`http://localhost:8080/api/admin/promote/${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/admin/promote/${userId}`, {
         method: "PUT"
     })
         .then(res => res.text()) // Convert response to text
@@ -73,5 +73,5 @@ function goToHome() {
 
 // 🧹 Navigate to Post Moderation page
 function goToPostModeration() {
-    window.location.href = "../HTML/adminPosts.html";
+    window.location.href = "../adminPosts.html";
 }

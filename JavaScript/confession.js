@@ -1,6 +1,6 @@
 /* // ✅ Load all anonymous confessions
 function loadConfessionsFromBackend() {
-    fetch("http://localhost:8080/api/confessions")
+    fetch("ttps://kpugram-backend.onrender.com/api/confessions")
         .then(res => {
             if (!res.ok) throw new Error("Failed to load confessions");
             return res.json();
@@ -70,7 +70,7 @@ function submitConfessionToBackend(content) {
         anonymous: true
     };
 
-    fetch(`http://localhost:8080/api/confessions/create?userId=${userId}`, {
+    fetch(`ttps://kpugram-backend.onrender.com/api/confessions/create?userId=${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 */
 /// ✅ Load all anonymous confessions from backend and render them
 function loadConfessionsFromBackend() {
-    fetch("http://localhost:8080/api/confessions")
+    fetch("https://kpugram-backend.onrender.com/api/confessions")
         .then(res => {
             if (!res.ok) throw new Error("Failed to load confessions");
             return res.json();
@@ -234,7 +234,7 @@ function submitConfessionToBackend(content) {
     };
 
     // 📤 Send confession using POST request
-    fetch(`http://localhost:8080/api/confessions/create?userId=${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/confessions/create?userId=${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)

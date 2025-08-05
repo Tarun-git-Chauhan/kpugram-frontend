@@ -26,7 +26,7 @@ function attachLikeCommentHandlers() {
       }
 
       // 🔗 Send POST request to like the post
-      fetch('http://localhost:8080/api/likes/like', {
+      fetch('https://kpugram-backend.onrender.com/api/likes/like', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ postId: parseInt(postId), userId: parseInt(userId) })
@@ -63,7 +63,7 @@ function attachLikeCommentHandlers() {
 
       if (comment) {
         // 🔗 Send POST request to submit comment
-        fetch('http://localhost:8080/api/comments/add', {
+        fetch('https://kpugram-backend.onrender.com/api/comments/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -96,7 +96,7 @@ function attachLikeCommentHandlers() {
     post.appendChild(commentSection);
 
     // 🔄 LOAD Existing comments from backend
-    fetch(`http://localhost:8080/api/comments/post/${postId}`)
+    fetch(`ttps://kpugram-backend.onrender.com/api/comments/post/${postId}`)
         .then(res => res.json())
         .then(comments => {
           comments.forEach(comment => {

@@ -2,12 +2,12 @@
 
 // Function to navigate to the signup page
 function goToSignup() {
-    window.location.href = "../HTML/signup.html";
+    window.location.href = "../signup.html";
 }
 
 // Function to navigate to the login page
 function goToLogin() {
-    window.location.href = "../HTML/login.html";
+    window.location.href = "../login.html";
 }
 
 // Wait until the page content is fully loaded before running this code
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Send login info to backend API to check credentials
-                const res = await fetch("http://localhost:8080/api/auth/login", {
+                const res = await fetch("https://kpugram-backend.onrender.com/api/auth/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
@@ -54,9 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 // ⛳ Redirect admin users to admin dashboard, others to homepage after 1 second
                 setTimeout(() => {
                     if (data.admin) {
-                        window.location.href = "../HTML/admin.html";
+                        window.location.href = "../admin.html";
                     } else {
-                        window.location.href = "../HTML/Home.html";
+                        window.location.href = "../Home.html";
                     }
                 }, 1000);
 
@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 email: formData.get("email"),
                 bio: formData.get("bio"),
                 // Use uploaded profile picture or default image
-                profilePicture: localStorage.getItem("profilePicture") || "http://localhost:8080/Images/blank.png"
+                profilePicture: localStorage.getItem("profilePicture") || "ttps://kpugram-backend.onrender.com/Images/blank.png"
             };
 
             try {
                 // Send signup data to backend API to create new user
-                const res = await fetch("http://localhost:8080/api/auth/register", {
+                const res = await fetch("https://kpugram-backend.onrender.com/api/auth/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Show success message and redirect to login page after 1 second
                 alert("🎉 Account created! Please login.");
-                setTimeout(() => (window.location.href = "../HTML/login.html"), 1000);
+                setTimeout(() => (window.location.href = "../login.html"), 1000);
 
             } catch (err) {
                 // Show error alert if signup failed

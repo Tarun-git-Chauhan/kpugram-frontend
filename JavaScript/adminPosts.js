@@ -1,12 +1,12 @@
 // 🏠 Navigate to the Home page
 function goToHome() {
-    window.location.href = "../HTML/Home.html";
+    window.location.href = "../Home.html";
 }
 
 // 📰 Load all posts when the page is ready
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch posts from backend
-    fetch("http://localhost:8080/api/posts/feed")
+    fetch("https://kpugram-backend.onrender.com/api/posts/feed")
         .then(res => res.json()) // Convert response to JSON
         .then(posts => {
             const tableBody = document.querySelector("#postTable tbody"); // Select table body
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 row.innerHTML = `
                     <td>${post.id}</td>
                     <td>${post.content}</td>
-                    <td>${post.imageUrl ? `<img src="http://localhost:8080${post.imageUrl}" class="post-img">` : "-"}</td>
+                    <td>${post.imageUrl ? `<img src="ttps://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : "-"}</td>
                     <td>${post.anonymous ? "Anonymous" : `@${post.username}`}</td>
                     <td>${new Date(post.createdAt).toLocaleString()}</td>
                     <td><button class="delete-btn" onclick="deletePost(${post.id})">Delete</button></td>
@@ -45,7 +45,7 @@ function deletePost(postId) {
     const userId = localStorage.getItem("userId"); // Required by backend
 
     // Send DELETE request with postId and userId
-    fetch(`http://localhost:8080/api/posts/${postId}?userId=${userId}`, {
+    fetch(`https://kpugram-backend.onrender.com/api/posts/${postId}?userId=${userId}`, {
         method: "DELETE"
     })
         .then(res => {
@@ -64,5 +64,5 @@ function deletePost(postId) {
 
 // 👥 Navigate to the User Dashboard (Admin page)
 function goToUserDashboard() {
-    window.location.href = "../HTML/admin.html";
+    window.location.href = "../admin.html";
 }

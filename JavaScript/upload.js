@@ -22,7 +22,7 @@ function sharePost() {
   formData.append("anonymous", "false");    // Regular post, not anonymous
 
   // Send POST request to backend to create the post
-  fetch("http://localhost:8080/api/posts/create", {
+  fetch("https://kpugram-backend.onrender.com/api/posts/create", {
     method: "POST",
     body: formData
   })
@@ -37,7 +37,7 @@ function sharePost() {
         // Clear form fields and redirect to the Home/feed page
         document.getElementById("captionInput").value = "";
         document.getElementById("imageUpload").value = "";
-        window.location.href = "../HTML/Home.html";
+        window.location.href = "../Home.html";
       })
       .catch(error => {
         console.error("Upload Error:", error);

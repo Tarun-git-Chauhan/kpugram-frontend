@@ -1,18 +1,18 @@
 // ✅ Navigation shortcuts - functions to go to different pages
 function goToHome() {
-  window.location.href = '../HTML/Home.html';
+  window.location.href = '../Home.html';
 }
 function goToUpload() {
-  window.location.href = '../HTML/upload.html';
+  window.location.href = '../upload.html';
 }
 function goToConfess() {
-  window.location.href = '../HTML/confession.html';
+  window.location.href = '../confession.html';
 }
 function goToProfile() {
-  window.location.href = '../HTML/profile.html';
+  window.location.href = '../profile.html';
 }
 function goToAdminDashboard() {
-  window.location.href = '../HTML/admin.html';
+  window.location.href = '../admin.html';
 }
 
 // ✅ DOM Ready logic - runs when the page is fully loaded
@@ -107,7 +107,7 @@ function loadPosts() {
   const feed = document.getElementById('feed');
   feed.innerHTML = ""; // Clear existing feed content
 
-  fetch('http://localhost:8080/api/posts/feed')
+  fetch('ttps://kpugram-backend.onrender.com/api/posts/feed')
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch posts");
         return res.json();
@@ -125,7 +125,7 @@ function loadPosts() {
           // Show profile picture or default anonymous icon
           const profilePicture = isAnonymous
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              : `http://localhost:8080${post.profilePicture || "/images/default.png"}`;
+              : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
           const likeCount = post.likes || 0;
 
           // Fill post content with username, text, image (if any), likes, and timestamp
@@ -135,7 +135,7 @@ function loadPosts() {
           </div>
           <div class="post-body">
             <p>${post.content}</p>
-            ${post.imageUrl ? `<img src="http://localhost:8080${post.imageUrl}" class="post-img">` : ''}
+            ${post.imageUrl ? `<img src="ttps://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
             <div class="post-footer">
               <span class="likes">❤️ ${likeCount}</span>
               <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
@@ -160,7 +160,7 @@ function loadPosts() {
 function loadProfileInfo() {
   const userId = localStorage.getItem("userId");
 
-  fetch(`http://localhost:8080/api/profile/${userId}`)
+  fetch(`https://kpugram-backend.onrender.com/api/profile/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error("Could not fetch profile data");
         return res.json();
@@ -171,7 +171,7 @@ function loadProfileInfo() {
 
         // Fix profile picture URL if needed or set default icon
         if (profilePicture?.startsWith("/images/")) {
-          profilePicture = "http://localhost:8080" + profilePicture;
+          profilePicture = "https://kpugram-backend.onrender.com" + profilePicture;
         } else if (!profilePicture || profilePicture === "null") {
           profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
         }
@@ -196,7 +196,7 @@ function loadUserPosts() {
   const grid = document.getElementById('postGrid');
   grid.innerHTML = ""; // Clear existing posts
 
-  fetch(`http://localhost:8080/api/profile/${userId}`)
+  fetch(`https://kpugram-backend.onrender.com/api/profile/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error("Could not load your posts");
         return res.json();
@@ -211,7 +211,7 @@ function loadUserPosts() {
 
           // Fix image URL if needed
           const imageUrl = post.imageUrl?.startsWith("/images/")
-              ? "http://localhost:8080" + post.imageUrl
+              ? "https://kpugram-backend.onrender.com" + post.imageUrl
               : post.imageUrl || "";
 
           postCard.innerHTML = `
