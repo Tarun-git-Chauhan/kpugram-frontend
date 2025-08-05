@@ -1,12 +1,12 @@
 // 🏠 Navigate to the Home page
 function goToHome() {
-    window.location.href = "../Home.html";
+    window.location.href = "../HTML/Home.html";
 }
 
 // 📰 Load all posts when the page is ready
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch posts from backend
-    fetch("https://kpugram-backend.onrender.com/api/posts/feed")
+    fetch("http://localhost:8080/api/posts/feed")
         .then(res => res.json()) // Convert response to JSON
         .then(posts => {
             const tableBody = document.querySelector("#postTable tbody"); // Select table body
@@ -45,7 +45,7 @@ function deletePost(postId) {
     const userId = localStorage.getItem("userId"); // Required by backend
 
     // Send DELETE request with postId and userId
-    fetch(`https://kpugram-backend.onrender.com/api/posts/${postId}?userId=${userId}`, {
+    fetch(`http://localhost:8080/api/posts/${postId}?userId=${userId}`, {
         method: "DELETE"
     })
         .then(res => {
@@ -64,5 +64,5 @@ function deletePost(postId) {
 
 // 👥 Navigate to the User Dashboard (Admin page)
 function goToUserDashboard() {
-    window.location.href = "../admin.html";
+    window.location.href = "../HTML/admin.html";
 }

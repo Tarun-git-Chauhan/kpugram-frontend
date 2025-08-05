@@ -1,154 +1,132 @@
-// ✅ Base URL for Render
-const BASE_URL = "https://kpugram-backend.onrender.com/api";
+// ✅ script.js – Updated to store isAdmin flag and document everything clearly
 
-// ✅ Upload Post Function
-async function uploadPost(isAnonymous = false) {
-    const userId = localStorage.getItem("userId");
-    const content = document.getElementById("postContent").value;
-    const imageInput = document.getElementById("imageUpload");
-    const file = imageInput.files[0];
-
-    if (!content && !file) {
-        alert("Post content or image is required.");
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append("content", content);
-    formData.append("anonymous", isAnonymous);
-    if (file) {
-        formData.append("image", file);
-    }
-
-    try {
-        const response = await fetch(`${BASE_URL}/posts/create/${userId}`, {
-            method: "POST",
-            body: formData,
-        });
-
-        if (response.ok) {
-            alert("Post uploaded successfully!");
-            window.location.href = isAnonymous
-                ? "/HTML/confession.html"
-                : "/HTML/Home.html";
-        } else {
-            const error = await response.text();
-            alert("Upload failed: " + error);
-        }
-    } catch (error) {
-        console.error("Error uploading post:", error);
-        alert("Error uploading post.");
-    }
+// Function to navigate to the signup page
+function goToSignup() {
+    window.location.href = "../HTML/signup.html";
 }
 
-// ✅ Event Listeners
-document.addEventListener("DOMContentLoaded", function () {
-    const normalPostBtn = document.getElementById("uploadPostBtn");
-    const confessPostBtn = document.getElementById("uploadConfessBtn");
+// Function to navigate to the login page
+function goToLogin() {
+    window.location.href = "../HTML/login.html";
+}
 
-    if (normalPostBtn) {
-        normalPostBtn.addEventListener("click", () => uploadPost(false));
-    }
-
-    if (confessPostBtn) {
-        confessPostBtn.addEventListener("click", () => uploadPost(true));
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
+// Wait until the page content is fully loaded before running this code
+document.addEventListener("DOMContentLoaded", () => {
+    // Get the login form element by its ID
+    const loginForm = document.getElementById("loginForm");
+    // Get the signup form element by its ID
     const signupForm = document.getElementById("signupForm");
 
-    if (signupForm) {
-        signupForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const form = e.target;
-            const name = form.name.value.trim();
-            const password = form.password.value;
-            const email = form.email.value.trim();
-            const bio = form.bio.value.trim();
-            const profilePic = document.getElementById("profilePicUpload").files[0];
-
-            const formData = new FormData();
-            formData.append("name", name);
-            formData.append("password", password);
-            formData.append("email", email);
-            formData.append("bio", bio);
-            if (profilePic) {
-                formData.append("profilePicture", profilePic);
-            }
-
-            try {
-                const response = await fetch(`${BASE_URL}/users/register`, {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (response.ok) {
-                    alert("🎉 Account registered! You can now log in.");
-                    window.location.href = "login.html";
-                } else {
-                    const error = await response.text();
-                    alert("Signup failed: " + error);
-                }
-            } catch (err) {
-                console.error("Signup error:", err);
-                alert("❌ Something went wrong during registration.");
-            }
-        });
-    }
-});
-document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
-
+    // ✅ Login Form Submission Logic
     if (loginForm) {
-        loginForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
+        // Add event listener for when the login form is submitted
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent the default form submit behavior (page refresh)
 
-            const email = loginForm.email.value.trim();
-            const password = loginForm.password.value;
-
-            if (!email || !password) {
-                alert("Please enter both email and password.");
-                return;
-            }
-
-            const data = { email, password };
+            // Collect the entered email and password from the form
+            const formData = new FormData(loginForm);
+            const email = formData.get("email");
+            const password = formData.get("password");
 
             try {
-                const response = await fetch(`${BASE_URL}/users/login`, {
+                // Send login info to backend API to check credentials
+                const res = await fetch("http://localhost:8080/api/auth/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ email, password })
                 });
 
-                if (response.ok) {
-                    const user = await response.json();
-                    localStorage.setItem("userId", user.id);
-                    localStorage.setItem("username", user.name);
-                    localStorage.setItem("isAdmin", user.admin);
+                // If login fails, throw an error to jump to catch block
+                if (!res.ok) throw new Error("Login failed");
 
-                    alert("✅ Logged in!");
-                    window.location.href = "Home.html";
-                } else {
-                    const error = await response.text();
-                    alert("Login failed: " + error);
-                }
+                // Parse response JSON data
+                const data = await res.json();
+
+                // ✅ Save user data in localStorage for other pages to use
+                localStorage.setItem("userId", data.id);
+                localStorage.setItem("username", data.name);
+                localStorage.setItem("profilePicture", data.profilePicture || "https://via.placeholder.com/150");
+                localStorage.setItem("loginStreak", data.loginCount?.toString() || "0");
+                localStorage.setItem("isAdmin", data.admin); // Store admin status
+
+                alert("✅ Logged in successfully!");
+
+                // ⛳ Redirect admin users to admin dashboard, others to homepage after 1 second
+                setTimeout(() => {
+                    if (data.admin) {
+                        window.location.href = "../HTML/admin.html";
+                    } else {
+                        window.location.href = "../HTML/Home.html";
+                    }
+                }, 1000);
+
             } catch (err) {
-                console.error("Login error:", err);
-                alert("❌ Something went wrong while logging in.");
+                // Show error alert if login failed
+                alert("❌ Invalid credentials");
+                console.error(err);
             }
         });
     }
+
+    // ✅ Signup Form Submission Logic
+    if (signupForm) {
+        // Add event listener for when the signup form is submitted
+        signupForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent page reload
+
+            // Collect all signup data from the form
+            const formData = new FormData(signupForm);
+            const body = {
+                name: formData.get("name"),
+                password: formData.get("password"),
+                email: formData.get("email"),
+                bio: formData.get("bio"),
+                // Use uploaded profile picture or default image
+                profilePicture: localStorage.getItem("profilePicture") || "http://localhost:8080/Images/blank.png"
+            };
+
+            try {
+                // Send signup data to backend API to create new user
+                const res = await fetch("http://localhost:8080/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                // If signup fails, read error message and throw
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    throw new Error("Signup failed: " + errorText);
+                }
+
+                // Show success message and redirect to login page after 1 second
+                alert("🎉 Account created! Please login.");
+                setTimeout(() => (window.location.href = "../HTML/login.html"), 1000);
+
+            } catch (err) {
+                // Show error alert if signup failed
+                alert("❌ Signup error :( " + err.message);
+                console.error(err);
+            }
+        });
+
+        // ✅ Profile Picture Upload Preview
+        // Listen for when a file is selected for profile picture upload
+        const fileInput = document.getElementById("profilePicUpload");
+        if (fileInput) {
+            fileInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+
+                // When file is read, show preview image and save in localStorage
+                reader.onload = function (event) {
+                    document.getElementById("profileImage").src = event.target.result;
+                    localStorage.setItem("profilePicture", event.target.result);
+                };
+
+                // Start reading the file if a file was selected
+                if (file) reader.readAsDataURL(file);
+            });
+        }
+    }
 });
-
-
-
-function goToSignup() {
-    window.location.href = "signup.html";
-}
-
-function goToLogin() {
-    window.location.href = "login.html";
-}
-

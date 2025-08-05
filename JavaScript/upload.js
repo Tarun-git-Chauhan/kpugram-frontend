@@ -22,7 +22,7 @@ function sharePost() {
   formData.append("anonymous", "false");    // Regular post, not anonymous
 
   // Send POST request to backend to create the post
-  fetch("https://kpugram-backend.onrender.com/api/posts/create", {
+  fetch("http://localhost:8080/api/posts/create", {
     method: "POST",
     body: formData
   })
