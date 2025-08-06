@@ -126,7 +126,7 @@ function loadPosts() {
           const profilePicture = isAnonymous
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
-          const likeCount = post.likes || 0;
+          const likeCount = post.likes || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
 
           // Fill post content with username, text, image (if any), likes, and timestamp
           postElement.innerHTML = `
