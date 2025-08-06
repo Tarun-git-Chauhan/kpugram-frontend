@@ -126,22 +126,43 @@ function loadPosts() {
           const profilePicture = isAnonymous
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
-          const likeCount = post.likes || 0;
+          const likeCount = post.likes || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
 
+          // here got two options like we can fetch everytime to get the likes seperately which increase the api traffic
+          // it is ok if it is only 10 to 50 posts but we have another option we change the DTO where we can give the likecount so it will work into the single api
           // Fill post content with username, text, image (if any), likes, and timestamp
-          postElement.innerHTML = `
-          <div class="post-header">
-            <span class="post-username">${displayUsername}</span>
-          </div>
-          <div class="post-body">
-            <p>${post.content}</p>
-            ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
-            <div class="post-footer">
-              <span class="likes">❤️ ${likeCount}</span>
-              <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
+          // here we have to fetch the like count dynamically per post
+          /*fetch(`https://kpugram-backend.onrender.com//api/likes/count/${post.id}`)
+              .then(res => res.json())
+              .then(likeCount => {
+                  postElement.innerHTML = `
+            <div class="post-header">
+              <span class="post-username">${displayUsername}</span>
             </div>
-          </div>
-        `;
+            <div class="post-body">
+              <p>${post.content}</p>
+              ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
+              <div class="post-footer">
+                <span class="likes">❤️ ${likeCount}</span>
+                <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
+              </div>
+            </div>
+          `;
+                  feed.appendChild(postElement);
+              });*/
+          postElement.innerHTML = `
+            <div class="post-header">
+              <span class="post-username">${displayUsername}</span>
+            </div>
+            <div class="post-body">
+              <p>${post.content}</p>
+              ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
+              <div class="post-footer">
+                <span class="likes">❤️ ${likeCount}</span>
+                <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
+              </div>
+            </div>
+          `;
           feed.appendChild(postElement);
         });
 
