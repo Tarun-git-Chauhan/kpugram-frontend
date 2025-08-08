@@ -196,7 +196,10 @@ function viewUserProfile(userId) {
 
 // ✅ Load profile info for current user on profile page
 function loadProfileInfo() {
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get("userId") || localStorage.getItem("userId");
 
   fetch(`${BASE_URL}/api/profile/${userId}`)
       .then(res => {
@@ -230,7 +233,11 @@ function loadProfileInfo() {
 
 // ✅ Load posts made by current user for profile page post grid
 function loadUserPosts() {
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get("userId") || localStorage.getItem("userId");
+
+
   const grid = document.getElementById('postGrid');
   grid.innerHTML = ""; // Clear existing posts
 
