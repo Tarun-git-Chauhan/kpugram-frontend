@@ -271,10 +271,11 @@ window.addEventListener('scroll', () => {
 });
 
 // to like button click handler work
+
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('like-btn')) {
     const postId = e.target.getAttribute('data-id');
-    const userId = localStorage.getItem('userId'); // make sure this is set when login/signup
+    const userId = localStorage.getItem('userId');
 
     fetch(`https://kpugram-backend.onrender.com/api/likes/like?userId=${userId}&postId=${postId}`, {
       method: 'POST'
@@ -282,13 +283,16 @@ document.addEventListener('click', function(e) {
         .then(res => res.text())
         .then(msg => {
           console.log(msg);
-          // Increase the like count on the UI
-          const likeCountEl = document.getElementById(`likes-${postId}`);
-          if (likeCountEl) {
-            likeCountEl.textContent = parseInt(likeCountEl.textContent) + 1;
+          if (msg.includes("successfully")) {
+            const likeCountEl = document.getElementById(`likes-${postId}`);
+            if (likeCountEl) {
+              likeCountEl.textContent = parseInt(likeCountEl.textContent) + 1;
+            }
+            e.target.disabled = true;
+            e.target.style.opacity = "0.5";
+            e.target.title = "You already liked this post";
           }
         })
         .catch(err => console.error("Failed to like post:", err));
   }
 });
-
