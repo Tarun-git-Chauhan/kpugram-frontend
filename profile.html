@@ -77,7 +77,7 @@
 <script src="JavaScript/script2.js"></script>
 
 <!-- 🧠 Script to load user data from localStorage -->
-<script>
+<!--<script>
   document.addEventListener('DOMContentLoaded', () => {
     // Get user data from localStorage or use fallback values
     const username = localStorage.getItem('username') || 'guest';
@@ -95,6 +95,23 @@
     document.getElementById('streakCount').textContent = streak;
 
     // Capitalize and display full name
+    document.getElementById('fullName').textContent = username.charAt(0).toUpperCase() + username.slice(1);
+  });
+</script>-->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const userIdFromUrl = new URLSearchParams(window.location.search).get('userId');
+    // If we are viewing another user's profile → skip this and let script2.js handle it
+    if (userIdFromUrl) return;
+
+    const username = localStorage.getItem('username') || 'guest';
+    const profilePic = localStorage.getItem('profilePicture') || 'https://via.placeholder.com/150';
+    const streak = localStorage.getItem('loginStreak') || '0';
+
+    document.getElementById('headerUsername').textContent = '@' + username;
+    document.getElementById('handle').textContent = '@' + username;
+    document.getElementById('profileImage').src = profilePic;
+    document.getElementById('streakCount').textContent = streak;
     document.getElementById('fullName').textContent = username.charAt(0).toUpperCase() + username.slice(1);
   });
 </script>

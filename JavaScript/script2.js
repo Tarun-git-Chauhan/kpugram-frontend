@@ -235,7 +235,7 @@ function viewUserProfile(userId) {
         console.error("Failed to load profile info:", error);
       });
 }*/
-function loadProfileInfo() {
+/*function loadProfileInfo() {
   const urlParams = new URLSearchParams(window.location.search);
   const userId = urlParams.get("userId") || localStorage.getItem("userId");
 
@@ -282,7 +282,57 @@ function loadProfileInfo() {
         document.getElementById("handle").textContent = "@" + username;
         document.getElementById("headerUsername").textContent = "@" + username;
       });
+}*/
+
+function loadProfileInfo() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get("userId") || localStorage.getItem("userId");
+
+  fetch(`${BASE_URL}/api/profile/${userId}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Could not fetch profile data");
+        return res.json();
+      })
+      .then(data => {
+        // Username priority: API → localStorage → guest
+        const storedUsername = localStorage.getItem("username");
+        const username = (data.username && data.username.trim()) || storedUsername || "guest";
+
+        // Profile picture handling
+        let profilePicture = data.profilePicture;
+        if (profilePicture) {
+          if (!profilePicture.startsWith("http")) {
+            profilePicture = `${BASE_URL}${profilePicture}`;
+          }
+        } else {
+          profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+        }
+
+        // Bio from API (no localStorage fallback here unless you store it there)
+        const bio = (data.bio && data.bio.trim()) || "";
+
+        // Login streak count
+        const loginCount = data.loginCount || 0;
+
+        // ✅ Update DOM elements (matching profile.html IDs)
+        document.getElementById("profileImage").src = profilePicture;
+        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
+        document.getElementById("handle").textContent = "@" + username;
+        document.getElementById("headerUsername").textContent = "@" + username;
+        document.getElementById("streakCount").textContent = loginCount;
+        const bioEl = document.getElementById("bio");
+        if (bioEl) bioEl.textContent = bio;
+      })
+      .catch(err => {
+        console.error("Failed to load profile info:", err);
+        // Fallback to localStorage if API fails
+        const username = localStorage.getItem("username") || "guest";
+        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
+        document.getElementById("handle").textContent = "@" + username;
+        document.getElementById("headerUsername").textContent = "@" + username;
+      });
 }
+
 
 
 // ✅ Load posts made by current user for profile page post grid
