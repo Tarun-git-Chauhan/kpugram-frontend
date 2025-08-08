@@ -165,7 +165,7 @@ function loadPosts() {
             </div>
             <div class="post-body">
               <p>${post.content}</p>
-              // ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
+<!--              ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}-->
               ${imgUrl ? `<img src="${imgUrl}" class="post-img" alt="Post Image">` : ''}
               <div class="post-footer">
 <!--              here we adding the button-->
