@@ -200,7 +200,7 @@ function viewUserProfile(userId) {
 
 
 // ✅ Load profile info for current user on profile page
-function loadProfileInfo() {
+/*function loadProfileInfo() {
   // const userId = localStorage.getItem("userId");
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -234,7 +234,56 @@ function loadProfileInfo() {
       .catch(error => {
         console.error("Failed to load profile info:", error);
       });
+}*/
+function loadProfileInfo() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get("userId") || localStorage.getItem("userId");
+
+  fetch(`${BASE_URL}/api/profile/${userId}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Could not fetch profile data");
+        return res.json();
+      })
+      .then(data => {
+        // username priority: DB -> localStorage -> 'guest'
+        const storedUsername = localStorage.getItem("username");
+        const username = (data.username && data.username.trim()) || storedUsername || "guest";
+
+        // profile pic: prefix BASE_URL if relative; fallback to default icon
+        let profilePicture = data.profilePicture;
+        if (profilePicture) {
+          if (!profilePicture.startsWith("http")) {
+            profilePicture = `${BASE_URL}${profilePicture}`;
+          }
+        } else {
+          profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+        }
+
+        // bio (DB first; you can also fall back to localStorage if you store it there)
+        const bio = (data.bio && data.bio.trim()) || "";
+
+        const loginCount = data.loginCount || 0;
+
+        // ✅ write to DOM — use IDs that actually exist in profile.html
+        document.getElementById("profileImage").src = profilePicture;
+        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
+        document.getElementById("handle").textContent = "@" + username;
+        document.getElementById("headerUsername").textContent = "@" + username;
+        document.getElementById("streakCount").textContent = loginCount;
+        const bioEl = document.getElementById("bio");
+        if (bioEl) bioEl.textContent = bio || ""; // leave empty if no bio
+      })
+      .catch(err => {
+        console.error("Failed to load profile info:", err);
+
+        // Fallbacks so the page still shows sensible data
+        const username = localStorage.getItem("username") || "guest";
+        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
+        document.getElementById("handle").textContent = "@" + username;
+        document.getElementById("headerUsername").textContent = "@" + username;
+      });
 }
+
 
 // ✅ Load posts made by current user for profile page post grid
 function loadUserPosts() {
