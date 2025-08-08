@@ -129,31 +129,7 @@ function loadPosts() {
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               : `${BASE_URL}${post.profilePicture || "/images/default.png"}`;
           const likeCount = post.likeCount || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
-/*
-          // here got two options like we can fetch everytime to get the likes seperately which increase the api traffic
-          // it is ok if it is only 10 to 50 posts but we have another option we change the DTO where we can give the likecount so it will work into the single api
-          // Fill post content with username, text, image (if any), likes, and timestamp
-          // here we have to fetch the like count dynamically per post
-          fetch(`${BASE_URL}//api/likes/count/${post.id}`)
-              .then(res => res.json())
-              .then(likeCount => {
-                  postElement.innerHTML = `
-            <div class="post-header">
-              <span class="post-username">${displayUsername}</span>
-            </div>
-            <div class="post-body">
-              <p>${post.content}</p>
-              ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
-              <div class="post-footer">
-                <span class="likes">❤️ ${likeCount}</span>
-                <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
-              </div>
-            </div>
-          `;
-                  feed.appendChild(postElement);
-              });
 
- */
           // Fix image URL
           const imgUrl = post.imageUrl
               ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${BASE_URL}${post.imageUrl}`)
@@ -172,6 +148,13 @@ function loadPosts() {
                 <button class="like-btn" data-id="${post.id}">❤️</button>
               <span class="likes-count" id="likes-${post.id}">${likeCount}</span>
                 <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
+              </div>
+               <!-- Comments section -->
+              <div class="comments-section" id="comments-${post.id}">
+                <button class="view-comments-btn" data-id="${post.id}">💬 View Comments</button>
+                <div class="comment-list" id="comment-list-${post.id}"></div>
+                <input type="text" class="comment-input" id="comment-input-${post.id}" placeholder="Write a comment..." />
+                <button class="comment-submit-btn" data-id="${post.id}">Post</button>
               </div>
             </div>
           `;
@@ -199,94 +182,13 @@ function viewUserProfile(userId) {
 }
 
 
-// ✅ Load profile info for current user on profile page
-/*function loadProfileInfo() {
-  // const userId = localStorage.getItem("userId");
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get("userId") || localStorage.getItem("userId");
-
-  fetch(`${BASE_URL}/api/profile/${userId}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Could not fetch profile data");
-        return res.json();
-      })
-      .then(data => {
-        const username = data.username || "guest";
-        let profilePicture = data.profilePicture;
-
-        // Fix profile picture URL if needed or set default icon
-        if (profilePicture?.startsWith("/images/")) {
-          profilePicture = `${BASE_URL}` + profilePicture;
-        } else if (!profilePicture || profilePicture === "null") {
-          profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-        }
-
-        const loginCount = data.loginCount || 0;
-
-        // Update profile page elements with data
-        document.getElementById("profileImage").src = profilePicture;
-        document.getElementById("profileUsername").textContent = "@" + username;
-        document.getElementById("handle").textContent = "@" + username;
-        document.getElementById("name").textContent = username.charAt(0).toUpperCase() + username.slice(1);
-        document.getElementById("streakCount").textContent = loginCount;
-      })
-      .catch(error => {
-        console.error("Failed to load profile info:", error);
-      });
-}*/
-/*function loadProfileInfo() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get("userId") || localStorage.getItem("userId");
-
-  fetch(`${BASE_URL}/api/profile/${userId}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Could not fetch profile data");
-        return res.json();
-      })
-      .then(data => {
-        // username priority: DB -> localStorage -> 'guest'
-        const storedUsername = localStorage.getItem("username");
-        const username = (data.username && data.username.trim()) || storedUsername || "guest";
-
-        // profile pic: prefix BASE_URL if relative; fallback to default icon
-        let profilePicture = data.profilePicture;
-        if (profilePicture) {
-          if (!profilePicture.startsWith("http")) {
-            profilePicture = `${BASE_URL}${profilePicture}`;
-          }
-        } else {
-          profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-        }
-
-        // bio (DB first; you can also fall back to localStorage if you store it there)
-        const bio = (data.bio && data.bio.trim()) || "";
-
-        const loginCount = data.loginCount || 0;
-
-        // ✅ write to DOM — use IDs that actually exist in profile.html
-        document.getElementById("profileImage").src = profilePicture;
-        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
-        document.getElementById("handle").textContent = "@" + username;
-        document.getElementById("headerUsername").textContent = "@" + username;
-        document.getElementById("streakCount").textContent = loginCount;
-        const bioEl = document.getElementById("bio");
-        if (bioEl) bioEl.textContent = bio || ""; // leave empty if no bio
-      })
-      .catch(err => {
-        console.error("Failed to load profile info:", err);
-
-        // Fallbacks so the page still shows sensible data
-        const username = localStorage.getItem("username") || "guest";
-        document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
-        document.getElementById("handle").textContent = "@" + username;
-        document.getElementById("headerUsername").textContent = "@" + username;
-      });
-}*/
-
 function loadProfileInfo() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get("userId") || localStorage.getItem("userId");
+  // Figure out whose profile we’re viewing
+  const qs = new URLSearchParams(window.location.search);
+  const userIdFromUrl = qs.get("userId");
+  const loggedInUserId = localStorage.getItem("userId");
+  const isSelf = !userIdFromUrl || userIdFromUrl === loggedInUserId; // own profile?
+  const userId = userIdFromUrl || loggedInUserId;                    // target id
 
   fetch(`${BASE_URL}/api/profile/${userId}`)
       .then(res => {
@@ -298,38 +200,47 @@ function loadProfileInfo() {
         const storedUsername = localStorage.getItem("username");
         const username = (data.username && data.username.trim()) || storedUsername || "guest";
 
-        // Profile picture handling
+        // Profile picture (prefix BASE_URL if relative)
         let profilePicture = data.profilePicture;
         if (profilePicture) {
-          if (!profilePicture.startsWith("http")) {
-            profilePicture = `${BASE_URL}${profilePicture}`;
-          }
+          if (!profilePicture.startsWith("http")) profilePicture = `${BASE_URL}${profilePicture}`;
         } else {
           profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
         }
 
-        // Bio from API (no localStorage fallback here unless you store it there)
         const bio = (data.bio && data.bio.trim()) || "";
-
-        // Login streak count
         const loginCount = data.loginCount || 0;
 
-        // ✅ Update DOM elements (matching profile.html IDs)
+        // Update profile UI
         document.getElementById("profileImage").src = profilePicture;
         document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
         document.getElementById("handle").textContent = "@" + username;
         document.getElementById("headerUsername").textContent = "@" + username;
         document.getElementById("streakCount").textContent = loginCount;
-        const bioEl = document.getElementById("bio");
-        if (bioEl) bioEl.textContent = bio;
+        const bioEl = document.getElementById("bio"); if (bioEl) bioEl.textContent = bio;
+
+        // ✅ Heading text (now that we know isSelf + username)
+        const postsHeading = document.getElementById("postsHeading");
+        if (postsHeading) {
+          if (isSelf) {
+            postsHeading.textContent = "📸 Your Posts";
+          } else {
+            const needsApostropheOnly = username.toLowerCase().endsWith("s");
+            const possessive = needsApostropheOnly ? `${username}'` : `${username}'s`;
+            postsHeading.textContent = `📸 ${possessive} Posts`;
+          }
+        }
       })
       .catch(err => {
         console.error("Failed to load profile info:", err);
-        // Fallback to localStorage if API fails
         const username = localStorage.getItem("username") || "guest";
         document.getElementById("fullName").textContent = username.charAt(0).toUpperCase() + username.slice(1);
         document.getElementById("handle").textContent = "@" + username;
         document.getElementById("headerUsername").textContent = "@" + username;
+
+        // Reasonable fallback heading
+        const postsHeading = document.getElementById("postsHeading");
+        if (postsHeading) postsHeading.textContent = "📸 Your Posts";
       });
 }
 

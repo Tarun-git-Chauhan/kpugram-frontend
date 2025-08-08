@@ -96,7 +96,7 @@ function attachLikeCommentHandlers() {
     post.appendChild(commentSection);
 
     // 🔄 LOAD Existing comments from backend
-    fetch(`ttps://kpugram-backend.onrender.com/api/comments/post/${postId}`)
+    fetch(`https://kpugram-backend.onrender.com/api/comments/post/${postId}`)
         .then(res => res.json())
         .then(comments => {
           comments.forEach(comment => {
