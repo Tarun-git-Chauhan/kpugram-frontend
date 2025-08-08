@@ -12,7 +12,7 @@ function goToProfile() {
   window.location.href = '../profile.html';
 }
 function goToAdminDashboard() {
-  window.location.href = '../admin.html';
+  window.location.href = '../admin.html'
 }
 
 const BASE_URL = "https://kpugram-backend.onrender.com"; // this will be used as a based URL to it make easy to switch between the online or local hosting
@@ -154,6 +154,10 @@ function loadPosts() {
               });
 
  */
+          // Fix image URL
+          const imgUrl = post.imageUrl
+              ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${BASE_URL}${post.imageUrl}`)
+              : null;
 
           postElement.innerHTML = `
             <div class="post-header">
@@ -161,7 +165,8 @@ function loadPosts() {
             </div>
             <div class="post-body">
               <p>${post.content}</p>
-              ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
+              // ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
+              ${imgUrl ? `<img src="${imgUrl}" class="post-img" alt="Post Image">` : ''}
               <div class="post-footer">
 <!--              here we adding the button-->
                 <button class="like-btn" data-id="${post.id}">❤️</button>
