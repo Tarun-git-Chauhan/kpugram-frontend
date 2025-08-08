@@ -162,7 +162,7 @@ function loadPosts() {
               ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
               <div class="post-footer">
 <!--              here we adding the button-->
-                < <button class="like-btn" data-id="${post.id}">❤️</button>
+                <button class="like-btn" data-id="${post.id}">❤️</button>
               <span class="likes-count" id="likes-${post.id}">${likeCount}</span>
                 <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
               </div>
