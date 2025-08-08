@@ -15,6 +15,8 @@ function goToAdminDashboard() {
   window.location.href = '../admin.html';
 }
 
+const BASE_URL = "https://kpugram-backend.onrender.com"; // this will be used as a based URL to it make easy to switch between the online or local hosting
+
 // ✅ DOM Ready logic - runs when the page is fully loaded
 document.addEventListener('DOMContentLoaded', function () {
   // Get saved username from localStorage or use default "username"
@@ -107,7 +109,7 @@ function loadPosts() {
   const feed = document.getElementById('feed');
   feed.innerHTML = ""; // Clear existing feed content
 
-  fetch('https://kpugram-backend.onrender.com/api/posts/feed')
+  fetch(`${BASE_URL}/api/posts/feed`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch posts");
         return res.json();
@@ -125,14 +127,14 @@ function loadPosts() {
           // Show profile picture or default anonymous icon
           const profilePicture = isAnonymous
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
+              : `${BASE_URL}${post.profilePicture || "/images/default.png"}`;
           const likeCount = post.likeCount || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
 /*
           // here got two options like we can fetch everytime to get the likes seperately which increase the api traffic
           // it is ok if it is only 10 to 50 posts but we have another option we change the DTO where we can give the likecount so it will work into the single api
           // Fill post content with username, text, image (if any), likes, and timestamp
           // here we have to fetch the like count dynamically per post
-          fetch(`https://kpugram-backend.onrender.com//api/likes/count/${post.id}`)
+          fetch(`${BASE_URL}//api/likes/count/${post.id}`)
               .then(res => res.json())
               .then(likeCount => {
                   postElement.innerHTML = `
@@ -141,7 +143,7 @@ function loadPosts() {
             </div>
             <div class="post-body">
               <p>${post.content}</p>
-              ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
+              ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
               <div class="post-footer">
                 <span class="likes">❤️ ${likeCount}</span>
                 <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
@@ -155,11 +157,11 @@ function loadPosts() {
 
           postElement.innerHTML = `
             <div class="post-header">
-              <span class="post-username">${displayUsername}</span>
+              <span class="post-username" style="cursor: pointer;" onclick="viewUserProfile(${post.userId})">${displayUsername}</span>
             </div>
             <div class="post-body">
               <p>${post.content}</p>
-              ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
+              ${post.imageUrl ? `<img src="${BASE_URL}${post.imageUrl}" class="post-img">` : ''}
               <div class="post-footer">
 <!--              here we adding the button-->
                 <button class="like-btn" data-id="${post.id}">❤️</button>
@@ -182,11 +184,21 @@ function loadPosts() {
       });
 }
 
+// this one to click on the @Username then go to the profile of that user.
+function viewUserProfile(userId) {
+  if (!userId) {
+    alert("Anonymous profile cannot be viewed.");
+    return;
+  }
+  window.location.href = `profile.html?userId=${userId}`;
+}
+
+
 // ✅ Load profile info for current user on profile page
 function loadProfileInfo() {
   const userId = localStorage.getItem("userId");
 
-  fetch(`https://kpugram-backend.onrender.com/api/profile/${userId}`)
+  fetch(`${BASE_URL}/api/profile/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error("Could not fetch profile data");
         return res.json();
@@ -197,7 +209,7 @@ function loadProfileInfo() {
 
         // Fix profile picture URL if needed or set default icon
         if (profilePicture?.startsWith("/images/")) {
-          profilePicture = "https://kpugram-backend.onrender.com" + profilePicture;
+          profilePicture = `${BASE_URL}` + profilePicture;
         } else if (!profilePicture || profilePicture === "null") {
           profilePicture = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
         }
@@ -222,7 +234,7 @@ function loadUserPosts() {
   const grid = document.getElementById('postGrid');
   grid.innerHTML = ""; // Clear existing posts
 
-  fetch(`https://kpugram-backend.onrender.com/api/profile/${userId}`)
+  fetch(`${BASE_URL}/api/profile/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error("Could not load your posts");
         return res.json();
@@ -237,7 +249,7 @@ function loadUserPosts() {
 
           // Fix image URL if needed
           const imageUrl = post.imageUrl?.startsWith("/images/")
-              ? "https://kpugram-backend.onrender.com" + post.imageUrl
+              ? `${BASE_URL}` + post.imageUrl
               : post.imageUrl || "";
 
           postCard.innerHTML = `
@@ -277,7 +289,7 @@ document.addEventListener('click', function(e) {
     const postId = e.target.getAttribute('data-id');
     const userId = localStorage.getItem('userId');
 
-    fetch(`https://kpugram-backend.onrender.com/api/likes/like?userId=${userId}&postId=${postId}`, {
+    fetch(`${BASE_URL}/api/likes/like?userId=${userId}&postId=${postId}`, {
       method: 'POST'
     })
         .then(res => res.text())
