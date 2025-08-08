@@ -126,7 +126,7 @@ function loadPosts() {
           const profilePicture = isAnonymous
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
-          const likeCount = post.likes || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
+          const likeCount = post.likeCount || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
 
           // here got two options like we can fetch everytime to get the likes seperately which increase the api traffic
           // it is ok if it is only 10 to 50 posts but we have another option we change the DTO where we can give the likecount so it will work into the single api
