@@ -127,12 +127,12 @@ function loadPosts() {
               ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               : `https://kpugram-backend.onrender.com${post.profilePicture || "/images/default.png"}`;
           const likeCount = post.likeCount || 0; // when you will correct the like thing just look under the LikeController.java where you can see the endpoints
-
+/*
           // here got two options like we can fetch everytime to get the likes seperately which increase the api traffic
           // it is ok if it is only 10 to 50 posts but we have another option we change the DTO where we can give the likecount so it will work into the single api
           // Fill post content with username, text, image (if any), likes, and timestamp
           // here we have to fetch the like count dynamically per post
-          /*fetch(`https://kpugram-backend.onrender.com//api/likes/count/${post.id}`)
+          fetch(`https://kpugram-backend.onrender.com//api/likes/count/${post.id}`)
               .then(res => res.json())
               .then(likeCount => {
                   postElement.innerHTML = `
@@ -149,7 +149,10 @@ function loadPosts() {
             </div>
           `;
                   feed.appendChild(postElement);
-              });*/
+              });
+
+ */
+
           postElement.innerHTML = `
             <div class="post-header">
               <span class="post-username">${displayUsername}</span>
@@ -158,7 +161,9 @@ function loadPosts() {
               <p>${post.content}</p>
               ${post.imageUrl ? `<img src="https://kpugram-backend.onrender.com${post.imageUrl}" class="post-img">` : ''}
               <div class="post-footer">
-                <span class="likes">❤️ ${likeCount}</span>
+<!--              here we adding the button-->
+                < <button class="like-btn" data-id="${post.id}">❤️</button>
+              <span class="likes-count" id="likes-${post.id}">${likeCount}</span>
                 <small>🕒 ${new Date(post.createdAt).toLocaleString()}</small>
               </div>
             </div>
@@ -264,3 +269,26 @@ window.addEventListener('scroll', () => {
     fetchMorePosts();
   }
 });
+
+// to like button click handler work
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('like-btn')) {
+    const postId = e.target.getAttribute('data-id');
+    const userId = localStorage.getItem('userId'); // make sure this is set when login/signup
+
+    fetch(`https://kpugram-backend.onrender.com/api/likes/like?userId=${userId}&postId=${postId}`, {
+      method: 'POST'
+    })
+        .then(res => res.text())
+        .then(msg => {
+          console.log(msg);
+          // Increase the like count on the UI
+          const likeCountEl = document.getElementById(`likes-${postId}`);
+          if (likeCountEl) {
+            likeCountEl.textContent = parseInt(likeCountEl.textContent) + 1;
+          }
+        })
+        .catch(err => console.error("Failed to like post:", err));
+  }
+});
+
